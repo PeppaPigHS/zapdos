@@ -1,0 +1,12 @@
+appId: com.peppapighs.zapdos
+productName: Zapdos
+copyright: Copyright © 2019 PeppaPigHS
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null

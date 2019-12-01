@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "name": "zapdos",
+  "description": "Tool for animating Pokemon Fire Red title screen",
+  "version": "1.0.0",
+  "author": "Pontakorn Prasertsuk @PeppaPigHS",
+  "main": "app/background.js",
+  "scripts": {
+    "dev": "nextron",
+    "build": "nextron build",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "antd": "^3.25.3",
+    "electron-serve": "^0.4.0",
+    "styled-components": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/next": "^9.0.0",
+    "@types/node": "^12.12.14",
+    "@types/react": "^16.9.13",
+    "@types/react-dom": "^16.9.4",
+    "@types/styled-components": "^4.4.0",
+    "@zeit/next-css": "^1.0.1",
+    "electron": "^7.1.2",
+    "electron-builder": "^22.1.0",
+    "next": "^9.1.4",
+    "nextron": "^5.14.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "typescript": "^3.7.2"
+  }
+}
