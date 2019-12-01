@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "antd": "^3.25.3",
+    "easy-peasy": "^3.2.3",
     "electron-serve": "^0.4.0",
+    "electron-store": "^5.1.0",
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
