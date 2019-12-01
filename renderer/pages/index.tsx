@@ -1,14 +1,17 @@
-import React from 'react';
-import Head from 'next/head';
+import React from 'react'
+import Head from 'next/head'
+
+import { StoreProvider } from 'easy-peasy'
+import store from '../store/store'
 
 import { Dashboard } from '../components/Dashboard'
 
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'
 
-import { Layout } from 'antd';
-import styled from 'styled-components';
+import { Layout } from 'antd'
+import styled from 'styled-components'
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content, Footer } = Layout
 
 const CustomLayout = styled(Layout)`
   min-height: 100vh;
@@ -43,23 +46,18 @@ const Home = () => {
       </Head>
       <CustomLayout>
         <CustomHeader>
-          <img
-            src='/static/zapdos.png'
-            style={{ marginRight: '15px' }}
-          />
-          <h1 style={{ color: 'white' }}>
-            Zapdos
-          </h1>
+          <img src="/static/zapdos.png" style={{ marginRight: '15px' }} />
+          <h1 style={{ color: 'white' }}>Zapdos</h1>
         </CustomHeader>
         <CustomContent>
-          <Dashboard />
+          <StoreProvider store={store}>
+            <Dashboard />
+          </StoreProvider>
         </CustomContent>
-        <CustomFooter>
-          PeppaPigHS © 2019
-        </CustomFooter>
+        <CustomFooter>PeppaPigHS © 2019</CustomFooter>
       </CustomLayout>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

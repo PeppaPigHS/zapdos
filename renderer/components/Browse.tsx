@@ -1,33 +1,38 @@
-import electron from 'electron';
-import React from 'react';
+import electron from 'electron'
+import React from 'react'
+import { useStoreState } from 'easy-peasy'
 
-import styled from 'styled-components';
-import { Input, Button } from 'antd';
+import styled from 'styled-components'
+import { Input, Button } from 'antd'
+import store from '../store/store'
 
-const ipcRenderer = electron.ipcRenderer || false;
+const ipcRenderer = electron.ipcRenderer || false
 
 const Row = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 `
 
 const CustomInput = styled(Input)`
-    margin-right: 8px;
-    width: 100%;
+  margin-right: 8px;
+  width: 100%;
 `
 
 export const Browse = () => {
-    const onClick = () => {
-        if(ipcRenderer) {
-            ipcRenderer.sendSync('open-rom')
-        }
-    }
+  const path = useStoreState(state => state.romPath)
+  const setRomPath = store.getActions().setRomPath
 
-    return (
-        <Row>
-            <CustomInput disabled />
-            <Button onClick={onClick}>...</Button>
-        </Row>
-    )
+  const onClick = () => {
+    if (ipcRenderer) {
+      setRomPath(ipcRenderer.sendSync('open-rom'))
+    }
+  }
+
+  return (
+    <Row>
+      <CustomInput disabled value={path} />
+      <Button onClick={onClick}>...</Button>
+    </Row>
+  )
 }
