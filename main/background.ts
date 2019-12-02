@@ -1,5 +1,6 @@
 import { app, Menu, ipcMain, dialog } from 'electron'
 import serve from 'electron-serve'
+import fs from 'fs'
 import { createWindow } from './helpers'
 
 const isProd: boolean = process.env.NODE_ENV === 'production'
@@ -14,19 +15,20 @@ if (isProd) {
   await app.whenReady()
 
   const mainWindow = createWindow('main', {
-    width: 1000,
-    height: 600
+    width: 640,
+    height: 960
+    // resizable: false,
+    // maximizable: false
   })
 
   if (isProd) {
     await mainWindow.loadURL('app://./index.html')
+    Menu.setApplicationMenu(null)
   } else {
     const port = process.argv[2]
     await mainWindow.loadURL(`http://localhost:${port}/index`)
     mainWindow.webContents.openDevTools()
   }
-
-  // Menu.setApplicationMenu(null)
 
   ipcMain.on('open-rom', event => {
     dialog
@@ -44,7 +46,6 @@ if (isProd) {
       })
       .catch(err => {
         console.log(err)
-        event.returnValue = ''
       })
   })
 
@@ -57,19 +58,34 @@ if (isProd) {
       })
       .then(result => {
         if (result !== undefined && !result.canceled) {
-          let filePaths = []
-          result.filePaths.forEach(file => {
-            filePaths.push({ key: 0, path: file })
-          })
-          event.returnValue = filePaths
+          event.returnValue = result.filePaths
         } else {
           event.returnValue = []
         }
       })
       .catch(err => {
         console.log(err)
-        event.returnValue = []
       })
+  })
+
+  ipcMain.on('save-rom', (event, romPath: string, framePath: Array<any>) => {
+    const reply = (success: boolean, message: string) => {
+      return { success: success, message: message }
+    }
+
+    if (romPath === '') {
+      event.returnValue = reply(false, 'Please select a ROM')
+      return
+    }
+
+    let data: Buffer = fs.readFileSync(romPath)
+
+    if (data.slice(0xac, 0xac + 4).toString() !== 'BPRE') {
+      event.returnValue = reply(false, 'Selected ROM is not Pokemon Fire Red')
+      return
+    }
+
+    event.returnValue = reply(true, 'Save to ROM successfully')
   })
 })()
 

@@ -21,8 +21,16 @@ const Col = styled.div`
 `
 
 const TableWrapper = styled.div`
-  height: 336px;
+  height: 256px;
   padding: 8px;
+`
+
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
 `
 
 const CustomButton = styled(Button)`
@@ -33,7 +41,7 @@ const columns = [
   {
     title: 'No.',
     dataIndex: 'key',
-    width: '10%'
+    width: '48px'
   },
   {
     title: 'Path',
@@ -43,7 +51,6 @@ const columns = [
 
 export const Frames = () => {
   const framePath = useStoreState(state => state.framePath)
-  const addFramePath = store.getActions().addFramePath
   const setFramePath = store.getActions().setFramePath
   const [row, setRow] = useState([])
 
@@ -56,20 +63,26 @@ export const Frames = () => {
 
   const addFrames = () => {
     if (ipcRenderer) {
-      let value = ipcRenderer.sendSync('open-frames')
-      if (framePath.length + value.length > 255) {
+      let newPath = []
+      framePath.forEach(file => {
+        newPath.push(file)
+      })
+      ipcRenderer.sendSync('open-frames').forEach(file => {
+        newPath.push({ key: newPath.length, path: file })
+      })
+      if (newPath.length > 255) {
         message.error('The number of frames exceeds 255')
         return
       }
-      addFramePath(value)
+      setFramePath(newPath)
     }
   }
 
   const deleteFrames = () => {
     let newPath = []
-    framePath.forEach((value, i) => {
-      if (!row.includes(i)) {
-        newPath.push(value)
+    framePath.forEach(file => {
+      if (!row.includes(file.key)) {
+        newPath.push({ key: newPath.length, path: file.path })
       }
     })
     setFramePath(newPath)
@@ -86,18 +99,10 @@ export const Frames = () => {
             columns={columns}
             dataSource={framePath}
             rowSelection={rowSelection}
-            scroll={{ x: 720, y: 240 }}
+            scroll={{ x: 720, y: 160 }}
           />
         ) : (
-          <Col
-            style={{
-              textAlign: 'center',
-              justifyContent: 'center',
-              height: '100%'
-            }}
-          >
-            Please add your animation frames
-          </Col>
+          <TextWrapper>Please add your animation frames</TextWrapper>
         )}
       </TableWrapper>
       <Row>

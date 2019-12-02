@@ -26,7 +26,7 @@ const CustomHeader = styled(Header)`
 `
 
 const CustomContent = styled(Content)`
-  padding: 16px;
+  padding: 16px 16px 0 16px;
   margin-top: 64px;
 `
 
