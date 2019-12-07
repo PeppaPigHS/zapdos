@@ -7,25 +7,24 @@ import { Button, message } from 'antd'
 const ipcRenderer = electron.ipcRenderer || false
 
 export const Save = () => {
-  const [romPath, framePath] = useStoreState(state => [
+  const [romPath, framePath, palette] = useStoreState(state => [
     state.romPath,
-    state.framePath
+    state.framePath,
+    state.palette
   ])
 
   const onClick = () => {
     if (ipcRenderer) {
-      let msg = ipcRenderer.sendSync('save-rom', romPath, framePath)
-      if (msg.success) {
-        message.success(msg.message)
-      } else {
-        message.error(msg.message)
-      }
+      let msg = ipcRenderer.sendSync('save-rom', romPath, framePath, palette)
+
+      if (msg.success) message.success(msg.message)
+      else message.error(msg.message)
     }
   }
 
   return (
     <Button type="primary" style={{ width: '100%' }} onClick={onClick}>
-      Save to ROM
+      Save ROM
     </Button>
   )
 }

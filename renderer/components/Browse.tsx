@@ -24,9 +24,7 @@ export const Browse = () => {
   const setRomPath = store.getActions().setRomPath
 
   const onClick = () => {
-    if (ipcRenderer) {
-      setRomPath(ipcRenderer.sendSync('open-rom'))
-    }
+    if (ipcRenderer) setRomPath(ipcRenderer.sendSync('open-rom'))
   }
 
   return (

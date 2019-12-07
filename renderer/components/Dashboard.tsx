@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Browse } from './Browse'
 import { Frames } from './Frames'
+import { Configure } from './Configure'
 import { Save } from './Save'
 
 import styled from 'styled-components'
@@ -26,6 +27,10 @@ export const Dashboard = () => {
       <Wrapper>
         <GroupName>Animation Frames</GroupName>
         <Frames />
+      </Wrapper>
+      <Wrapper>
+        <GroupName>Configuration</GroupName>
+        <Configure />
       </Wrapper>
       <Wrapper>
         <GroupName />

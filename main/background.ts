@@ -1,7 +1,8 @@
 import { app, Menu, ipcMain, dialog } from 'electron'
 import serve from 'electron-serve'
-import fs from 'fs'
+
 import { createWindow } from './helpers'
+import main from './main'
 
 const isProd: boolean = process.env.NODE_ENV === 'production'
 
@@ -15,15 +16,15 @@ if (isProd) {
   await app.whenReady()
 
   const mainWindow = createWindow('main', {
-    width: 640,
-    height: 960
-    // resizable: false,
-    // maximizable: false
+    width: 400,
+    height: 600,
+    resizable: false,
+    maximizable: false
   })
 
   if (isProd) {
-    await mainWindow.loadURL('app://./index.html')
     Menu.setApplicationMenu(null)
+    await mainWindow.loadURL('app://./index.html')
   } else {
     const port = process.argv[2]
     await mainWindow.loadURL(`http://localhost:${port}/index`)
@@ -57,36 +58,41 @@ if (isProd) {
         properties: ['openFile', 'multiSelections']
       })
       .then(result => {
-        if (result !== undefined && !result.canceled) {
+        if (result !== undefined && !result.canceled)
           event.returnValue = result.filePaths
-        } else {
-          event.returnValue = []
-        }
+        else event.returnValue = []
       })
       .catch(err => {
         console.log(err)
       })
   })
 
-  ipcMain.on('save-rom', (event, romPath: string, framePath: Array<any>) => {
-    const reply = (success: boolean, message: string) => {
-      return { success: success, message: message }
+  ipcMain.on(
+    'save-rom',
+    (event, romPath: string, framePath: Array<any>, palette: boolean) => {
+      let frame: Array<string> = []
+      framePath.forEach(path => frame.push(path.path))
+
+      dialog
+        .showSaveDialog(mainWindow, {
+          title: 'Save ROM',
+          filters: [{ name: 'GBA Rom', extensions: ['gba'] }]
+        })
+        .then(result => {
+          if (result !== undefined && !result.canceled) {
+            event.returnValue = main(romPath, result.filePath, frame, palette)
+          } else {
+            event.returnValue = {
+              success: false,
+              message: 'Please select your new ROM destination'
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
-
-    if (romPath === '') {
-      event.returnValue = reply(false, 'Please select a ROM')
-      return
-    }
-
-    let data: Buffer = fs.readFileSync(romPath)
-
-    if (data.slice(0xac, 0xac + 4).toString() !== 'BPRE') {
-      event.returnValue = reply(false, 'Selected ROM is not Pokemon Fire Red')
-      return
-    }
-
-    event.returnValue = reply(true, 'Save to ROM successfully')
-  })
+  )
 })()
 
 app.on('window-all-closed', () => {

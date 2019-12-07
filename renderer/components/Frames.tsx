@@ -56,20 +56,16 @@ export const Frames = () => {
 
   const rowSelection = {
     selectedRowKeys: row,
-    onChange: selectedRowKeys => {
-      setRow(selectedRowKeys)
-    }
+    onChange: selectedRowKeys => setRow(selectedRowKeys)
   }
 
   const addFrames = () => {
     if (ipcRenderer) {
       let newPath = []
-      framePath.forEach(file => {
-        newPath.push(file)
-      })
-      ipcRenderer.sendSync('open-frames').forEach(file => {
-        newPath.push({ key: newPath.length, path: file })
-      })
+      framePath.forEach(file => newPath.push(file))
+      ipcRenderer
+        .sendSync('open-frames')
+        .forEach(file => newPath.push({ key: newPath.length, path: file }))
       if (newPath.length > 255) {
         message.error('The number of frames exceeds 255')
         return
@@ -81,9 +77,8 @@ export const Frames = () => {
   const deleteFrames = () => {
     let newPath = []
     framePath.forEach(file => {
-      if (!row.includes(file.key)) {
+      if (!row.includes(file.key))
         newPath.push({ key: newPath.length, path: file.path })
-      }
     })
     setFramePath(newPath)
     setRow([])
@@ -92,18 +87,15 @@ export const Frames = () => {
   return (
     <Col>
       <TableWrapper>
-        {framePath.length ? (
-          <Table
-            size="small"
-            bordered
-            columns={columns}
-            dataSource={framePath}
-            rowSelection={rowSelection}
-            scroll={{ x: 720, y: 160 }}
-          />
-        ) : (
-          <TextWrapper>Please add your animation frames</TextWrapper>
-        )}
+        <Table
+          size="small"
+          bordered
+          columns={columns}
+          dataSource={framePath}
+          rowSelection={rowSelection}
+          pagination={{ pageSize: 255 }}
+          scroll={framePath.length > 0 ? { x: 720, y: 160 } : {}}
+        />
       </TableWrapper>
       <Row>
         <CustomButton style={{ marginRight: '8px' }} onClick={addFrames}>

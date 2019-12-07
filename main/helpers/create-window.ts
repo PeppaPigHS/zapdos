@@ -71,7 +71,7 @@ export default (
     store.set(key, state)
   }
 
-  state = isProd ? null : ensureVisibleOnSomeDisplay(restore())
+  state = ensureVisibleOnSomeDisplay(isProd ? defaultSize : restore())
 
   const browserOptions: BrowserWindowConstructorOptions = {
     ...options,
