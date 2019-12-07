@@ -26,6 +26,7 @@ Tool for animating Pokemon Fire Red v1.0 title screen
   * [nextron](https://github.com/saltyshiomix/nextron)
   * [antd](https://github.com/ant-design/ant-design)
   * [styled-components](https://github.com/styled-components/styled-components)
+  * [easy-peasy](https://github.com/ctrlplusb/easy-peasy)
   
 ## Special Thanks
   
