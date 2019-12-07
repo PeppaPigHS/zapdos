@@ -1,41 +1,47 @@
-<p align="center"><img src="https://i.imgur.com/NZfsD1p.png"></p>
+# Zapdos
 
-## Usage
+Tool for animating Pokemon Fire Red v1.0 title screen
 
-### Create an App
+## Getting Started
 
-```zsh
-# with `nextron`
-$ nextron init my-app --example with-typescript
+### Prerequisites
+  
+  * npm: Please refer to their [installation guide](https://www.npmjs.com/get-npm)
+  
+### Installation
 
-# with npx
-$ npx create-nextron-app my-app --example with-typescript
+  1. Make sure all prerequisites are installed
+  1. Clone this repository to your local machine, e.g ```git clone https://github.com/PeppaPigHS/zapdos.git```
+  1. Run ```npm install``` to install dependencies
+  1. Run ```npm run dev``` to launch electron app
+  
+## Build
+  
+  Run ```npm run build``` to build the application
+  
+  The executable file will appear inside ```dist``` folder
+  
+## Built with
+  
+  * [nextron](https://github.com/saltyshiomix/nextron)
+  * [antd](https://github.com/ant-design/ant-design)
+  * [styled-components](https://github.com/styled-components/styled-components)
+  
+## Special Thanks
+  
+  * Darthatron - for sharing his research on Pokemon Fire Red [here](https://www.pokecommunity.com/showthread.php?t=246740)
+  * link12552 - for his LZ77 Compression Algorithm from Nameless Sprite Editor 2
+  * HackMew - for his Free Space Finding Algorithm from Free Space Finder
+  
+## Screenshots
 
-# with yarn
-$ yarn create nextron-app my-app --example with-typescript
+### App Screenshots
 
-# with pnpx
-$ pnpx create-nextron-app my-app --example with-typescript
-```
+<div style={{ display: 'flex', flexDirection: 'row' }}>
+  <img src="https://i.imgur.com/goejjbf.png" />
+  <img src="https://i.imgur.com/yIoxBb7.png" />
+</div>
 
-### Install Dependencies
+### Animated Title Screen
 
-```zsh
-$ cd my-app
-
-# using yarn or npm
-$ yarn (or `npm install`)
-
-# using pnpm
-$ pnpm install --shamefully-hoist
-```
-
-### Use it
-
-```zsh
-# development mode
-$ yarn dev (or `npm run dev` or `pnpm run dev`)
-
-# production build
-$ yarn build (or `npm run build` or `pnpm run build`)
-```
+<img src="https://i.imgur.com/ONHfzk4.gif" />
