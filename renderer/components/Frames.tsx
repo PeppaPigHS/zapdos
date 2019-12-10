@@ -93,7 +93,7 @@ export const Frames = () => {
           columns={columns}
           dataSource={framePath}
           rowSelection={rowSelection}
-          pagination={{ pageSize: 255 }}
+          pagination={{ pageSize: 20 }}
           scroll={framePath.length > 0 ? { x: 720, y: 160 } : {}}
         />
       </TableWrapper>
