@@ -28,7 +28,7 @@
     "electron": "^7.1.2",
     "electron-builder": "^22.1.0",
     "file-loader": "^5.0.2",
-    "next": "^9.1.4",
+    "next": "^9.3.2",
     "nextron": "^5.14.0",
     "pngjs": "^3.4.0",
     "react": "^16.12.0",
